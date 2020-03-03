@@ -1,6 +1,6 @@
 <template>
-  <div :class="$style.content">
-    <post-content></post-content>
+  <div>
+    <post-content/>
   </div>
 </template>
 
@@ -24,12 +24,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" module>
-.content {
-  box-sizing: border-box;
-  max-width: 900px;
-  padding: 0 30px;
-  margin: 0 auto;
-}
-</style>

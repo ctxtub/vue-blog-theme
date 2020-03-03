@@ -2,11 +2,23 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import GhostContentAPI from '@tryghost/content-api'
 import leanCloud from '@/utils/leanCloud'
-import CONFIG from '../CONFIG'
 
 Vue.use(Vuex)
 
-const api = new GhostContentAPI(CONFIG.GHOSTCONFIG)
+const api = new GhostContentAPI({
+  'url': process.env.VUE_APP_CONFIG_GHOST_URL,
+  'key': process.env.VUE_APP_CONFIG_GHOST_KEY,
+  'version': process.env.VUE_APP_CONFIG_GHOST_VERSION
+})
+
+const skeletonPosts = [
+  { feature_image: '', plaintext: '', title: '' },
+  { feature_image: '', plaintext: '', title: '' },
+  { feature_image: '', plaintext: '', title: '' },
+  { feature_image: '', plaintext: '', title: '' },
+  { feature_image: '', plaintext: '', title: '' },
+  { feature_image: '', plaintext: '', title: '' }
+]
 
 export default new Vuex.Store({
   state: {
@@ -35,6 +47,9 @@ export default new Vuex.Store({
     },
     savePost (state, post) {
       state.post = post
+    },
+    setSkeletonPosts (state) {
+      state.posts = skeletonPosts
     }
   },
   actions: {
@@ -71,6 +86,8 @@ export default new Vuex.Store({
         })
     },
     getPosts (context, params = {}) {
+      context.commit('setSkeletonPosts')
+
       const defaultParams = {
         limit: 6,
         include: ['tags'],

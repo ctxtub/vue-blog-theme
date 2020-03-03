@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <Header></Header>
-    <router-view/>
-    <Footer></Footer>
+  <div id="app" :class="$style.app">
+    <Header :class="$style.header"/>
+    <router-view :class="$style.content"/>
+    <Footer :class="$style.footer"/>
   </div>
 </template>
 
@@ -23,13 +23,31 @@ export default {
 }
 </script>
 
+<style lang="scss" module>
+.app {
+  display: flex;
+  flex-direction: column;
+  .header {
+    flex: 0 0 52px;
+  }
+  .content {
+    flex: 1;
+    position: relative;
+  }
+  .footer {
+    flex: 0 0 100px;
+  }
+}
+</style>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body, #app {
+  height: 100%;
+}
+body {
   font-size: 14px;
-  line-height: 1.8;
-  color: #313131;
+  color: #333;
+  background: #fff;
+  font-family: Helvetica, Arial, "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", "tohoma,sans-serif";
 }
 </style>

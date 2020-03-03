@@ -1,43 +1,38 @@
 <template>
-  <div>
-    <div
-      :class="$style['card-box']"
-      v-for="(postLine, index) in formatPosts"
-      :key="index">
-      <div
-        :class="$style['card-wrap']"
-        v-for="(post, index) in postLine"
-        :key="index">
+  <div :class="$style.wrap">
+    <div :class="$style['card-box']"
+         v-for="(postRow, index) in formatPosts"
+         :key="index">
+      <div :class="$style['card-wrap']"
+           v-for="(post, index) in postRow"
+           :key="index">
         <div :class="$style['card-item']">
-          <div
-            :class="$style['card-image']"
-            :style="{ 'background-image': `url(${post.feature_image})` }">
+          <div :class="$style['card-image']"
+               :style="{ 'background-image': `url(${post.feature_image}${IMAGESUFFIX})` }">
           </div>
           <div :class="$style['card-content']">
             <p>{{post.plaintext.length > 80 ? `${post.plaintext.substr(0,80)}...` : post.plaintext}}</p>
           </div>
-          <div :class="[$style['card-slant'],$style['reverse-slant']]"></div>
+          <div :class="[$style['card-slant'], $style['reverse-slant']]"></div>
           <div :class="$style['card-slant']"></div>
           <div :class="$style['card-intro']">
             <p :class="$style.title">
               {{post.title}}
             </p>
-            <p :class="$style.subtitle">
-              <b-icon
-                pack="far"
-                icon="eye"
-                size="is-small">
+            <p :class="$style.subtitle"
+                v-if="post.viewCount">
+              <b-icon pack="far"
+                      icon="eye"
+                      size="is-small">
               </b-icon>
               {{post.viewCount}}
             </p>
-            <router-link
-              :to="{ path: `/post/${post.slug}` }"
-              :class="$style.footer">
+            <router-link :to="{ path: `/post/${post.slug}` }"
+                          :class="$style.footer">
               阅读全文
-              <b-icon
-                pack="fas"
-                icon="chevron-circle-right"
-                size="is-small">
+              <b-icon pack="fas"
+                      icon="chevron-circle-right"
+                      size="is-small">
               </b-icon>
             </router-link>
           </div>
@@ -49,8 +44,14 @@
 
 <script>
 import { mapState } from 'vuex'
+const IMAGESUFFIX = process.env.VUE_APP_CONFIG_IMAGESUFFIX
 
 export default {
+  data () {
+    return {
+      IMAGESUFFIX
+    }
+  },
   computed: {
     ...mapState(['posts']),
     formatPosts () {
@@ -66,6 +67,12 @@ export default {
 </script>
 
 <style lang="scss" module>
+.wrap {
+  height: 100%;
+  max-width: 1200px;
+  padding-bottom: 60px;
+  margin: 0 auto;
+}
 .card-wrap {
   box-sizing: border-box;
   padding: 15px;
@@ -80,13 +87,12 @@ export default {
     .card-image {
       height: 340px;
       width: 100%;
+      margin-bottom: -80px;
+      overflow: hidden;
       background: center center no-repeat #222;
       background-size: cover;
-      overflow: hidden;
-      margin-bottom: -80px;
-      -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.4);
       box-shadow: inset 0 0 100px rgba(0,0,0,.4);
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0,0,0,.04);
     }
     .card-content {
       position: absolute;
@@ -100,7 +106,7 @@ export default {
       text-align: left;
       background-color: rgba(0,0,0,0);
       p {
-        position: relative;
+        line-height: 20px;
         font-size: 14px;
         word-break: break-all;
         opacity: 0;
@@ -148,8 +154,24 @@ export default {
         right: 20px;
         bottom: 20px;
         color: #555;
-        border-bottom: 1px solid #ccc;
-        border-top: 1px solid #ccc;
+        &::before {
+          position: absolute;
+          content: '';
+          left: 0;
+          top: -5px;
+          width: 85px;
+          height: 1px;
+          background: #ece8e8;
+        }
+        &::after {
+          position: absolute;
+          content: '';
+          left: 0;
+          bottom: -5px;
+          width: 85px;
+          height: 1px;
+          background: #ece8e8;
+        }
       }
     }
     &:hover {

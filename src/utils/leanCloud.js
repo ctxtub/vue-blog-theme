@@ -1,5 +1,3 @@
-import CONFIG from '../../CONFIG'
-
 class LeanCloud {
   constructor (leanAppid, leanAppkey) {
     this.status = false
@@ -143,8 +141,10 @@ class LeanCloud {
   }
 }
 
-let entry = new LeanCloud(CONFIG.LEANCODECONFIG.leanAppid, CONFIG.LEANCODECONFIG.leanAppkey)
+const leanAppId = process.env.VUE_APP_CONFIG_LEANAPP_ID
+const leanAppKey = process.env.VUE_APP_CONFIG_LEANAPP_KEY
 
+const entry = new LeanCloud(leanAppId, leanAppKey)
 entry.initLeancode()
 
 export default entry

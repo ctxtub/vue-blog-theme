@@ -1,7 +1,7 @@
 <template>
   <footer :class="$style.footer">
-    <div class="$style.copyright">
-      © 2019 {{settings.title}}. All Rights Reserved. | Built with <a href="https://ghost.org/" target="_blank">Ghost</a> and <a href="https://github.com/ctxtub" target="_blank">Tensho Theme</a>. <a href="http://www.miitbeian.gov.cn/" target="_blank">{{miitbeian}}</a>
+    <div>
+      © {{new Date().getFullYear()}} {{settings.title}}. All Rights Reserved. | Built with <a href="https://github.com/ctxtub/vue-blog-theme" target="_blank">Ghost</a> and <a href="https://github.com/ctxtub" target="_blank">Tensho Theme</a>. <a href="http://www.beian.miit.gov.cn/" target="_blank" rel="nofollow">{{MIITBEIAN}}</a>
     </div>
     <div
       :class="$style.siteview"
@@ -20,13 +20,13 @@
 <script>
 import { mapState } from 'vuex'
 import leanCloud from '@/utils/leanCloud'
-import CONFIG from '../../CONFIG'
+const MIITBEIAN = process.env.VUE_APP_CONFIG_MIITBEIAN
 
 export default {
   data () {
     return {
       viewCount: null,
-      miitbeian: CONFIG.MIITBEIAN
+      MIITBEIAN
     }
   },
   created () {
@@ -49,9 +49,11 @@ export default {
 <style lang="scss" module>
   .footer {
     padding: 20px 20px;
+    line-height: 24px;
     text-align: center;
     background-color: #fafafa;
     .siteview {
+      margin-top: 15px;
       height: 24px;
       line-height: 24px;
       .icon {

@@ -1,9 +1,7 @@
 <template>
-  <div :class="$style.content">
-    <posts-list></posts-list>
-    <pagination
-      @change="changePage">
-    </pagination>
+  <div>
+    <posts-list/>
+    <pagination @change="changePage"/>
   </div>
 </template>
 
@@ -32,10 +30,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" module>
-.content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-</style>
